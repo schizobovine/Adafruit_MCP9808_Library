@@ -98,6 +98,30 @@ int16_t Adafruit_MCP9808::readTempRaw( void )
   return temp;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Read 8 most significant bits of the temperature register and
+            returns the Centigrade temperature as a signed integer.
+
+            000xxxxxxxxx
+        bit 119876543210
+            10
+
+            i.e. the bottom 4 bits are the fractional part, so shift down by 4
+            bits to get the integral portion.
+
+*/
+/**************************************************************************/
+int8_t Adafruit_MCP9808::readTempByte( void )
+{
+  uint16_t t = read16(MCP9808_REG_AMBIENT_TEMP);
+
+  int8_t temp = (int8_t)((t >> 4) & 0xFF);
+  if (t & 0x1000) temp = -temp;
+
+  return temp;
+}
+
 
 
 //*************************************************************************
