@@ -74,30 +74,6 @@ float Adafruit_MCP9808::readTempC( void )
   return temp;
 }
 
-/**************************************************************************/
-/*!
-    @brief  Reads the 16-bit temperature register and returns the Centigrade
-            temperature as a fixed-precision signed integer:
-
-            000xxxxxxxxx.yyyy
-        bit 111111987654 3210
-            543210
-
-            i.e. the bottom 4 bits are the fractional part, so shift down by 4
-            bits to get the integral portion.
-
-*/
-/**************************************************************************/
-int16_t Adafruit_MCP9808::readTempRaw( void )
-{
-  uint16_t t = read16(MCP9808_REG_AMBIENT_TEMP);
-
-  int16_t temp = (int16_t)(t & 0x0FFF);
-  if (t & 0x1000) temp = -temp;
-
-  return temp;
-}
-
 
 
 //*************************************************************************
